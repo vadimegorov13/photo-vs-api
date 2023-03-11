@@ -45,7 +45,14 @@ func InitDB() *gorm.DB {
 	}
 
 	// Automatically migrate the Post model to the database schema.
-	if err = db.AutoMigrate(&models.Tournament{}); err != nil {
+	if err = db.AutoMigrate(
+		&models.Tournament{},
+		&models.User{},
+		&models.Submission{},
+		&models.Round{},
+		&models.Match{},
+		&models.Vote{},
+	); err != nil {
 		log.Fatalf("Failed to migrate database: %v", err)
 	} else {
 		log.Println("Database migrated successfully")

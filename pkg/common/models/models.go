@@ -6,50 +6,52 @@ import (
 
 type Tournament struct {
 	gorm.Model
-	Title          string `json:"title"`
-	Description    string `json:"description"`
-	MaxPlayers     int    `json:"max_players"`
-	MaxSubmissions int    `json:"max_submissions"`
-	Status         string `json:"status"` // e.g. "upcoming", "in progress", "finished"
-	OrganizerID    uint   `json:"organizer_id"`
+	Title           string        `json:"title"`
+	Description     string        `json:"description"`
+	MaxPlayers      int           `json:"max_players"`
+	MaxSubmissions  int           `json:"max_submissions"`
+	Status          string        `json:"status"` // e.g. "upcoming", "in progress", "finished"
+	OrganizerID     uint          `json:"organizer_id"`
+	RegisteredUsers []*User       `gorm:"many2many:tournament_user" json:"registered_users"`
+	Rounds          []*Round      `json:"rounds"`
+	Submissions     []*Submission `json:"submissions"`
 }
-
-// Organizer       User         `gorm:"foreignKey:OrganizerID" json:"organizer"`
-// 	RegisteredUsers []User       `json:"registered_users"`
-// 	Rounds          []Round      `json:"rounds"`
-// 	Submissions     []Submission `json:"submissions"`
 
 type Round struct {
 	gorm.Model
-	Order   int     `json:"order"`
-	Matches []Match `json:"matches"`
+	Order        int      `json:"order"`
+	TournamentID uint     `json:"tournament_id"`
+	Matches      []*Match `gorm:"foreignKey:TournamentID" json:"matches"`
 }
 
 type Match struct {
 	gorm.Model
-	TournamentID uint   `json:"tournament_id"`
-	Player1      uint   `json:"player1"`
-	Player2      uint   `json:"player2"`
-	Submission1  uint   `json:"submission1"`
-	Submission2  uint   `json:"submission2"`
-	Winner       uint   `json:"winner"`
-	Status       string `json:"status"` // e.g. "upcoming", "in progress", "finished"
+	TournamentID  uint   `json:"tournament_id"`
+	UserID1       uint   `json:"user_id1"`
+	UserID2       uint   `json:"user_id2"`
+	SubmissionID1 uint   `json:"submission_id1"`
+	SubmissionID2 uint   `json:"submission_id2"`
+	WinnerID      uint   `json:"winner_id"`
+	Status        string `json:"status"` // e.g. "upcoming", "in progress", "finished"
 }
 
 type Submission struct {
 	gorm.Model
-	Title        string `json:"title"`
-	TournamentID uint   `json:"tournament_id"`
-	UserID       uint   `json:"user_id"`
-	ImageURL     string `json:"image_url"`
-	Votes        int    `json:"votes"`
-	UserVotes    []Vote `json:"user_votes"`
+	Title        string  `json:"title"`
+	TournamentID uint    `json:"tournament_id"`
+	UserID       uint    `json:"user_id"`
+	ImageURL     string  `json:"image_url"`
+	Votes        int     `json:"votes"`
+	UserVotes    []*Vote `json:"user_votes"`
 }
 
 type User struct {
 	gorm.Model
-	Username string `json:"username"`
-	Email    string `json:"email"`
+	Username    string        `json:"username"`
+	Email       string        `json:"email"`
+	Submissions []*Submission `json:"submissions"`
+	Votes       []*Vote       `json:"votes"`
+	Tournaments []*Tournament `gorm:"many2many:user_votes" json:"tournamnets"`
 }
 
 type Vote struct {
