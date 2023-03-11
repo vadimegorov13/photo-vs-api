@@ -28,5 +28,7 @@ func RegisterRoutes(app *fiber.App, db *gorm.DB) {
 	tournament := v1.Group("/tournament")
 
 	// Register the route handlers
+	tournament.Post("/", h.CreateTournament)
 	tournament.Get("/:id", h.GetTournamentData)
+	tournament.Patch("/:id", h.DelteTournament)
 }

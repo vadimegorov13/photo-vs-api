@@ -6,16 +6,18 @@ import (
 
 type Tournament struct {
 	gorm.Model
-	Title           string       `json:"title"`
-	Description     string       `json:"description"`
-	MaxPlayers      int          `json:"max_players"`
-	MaxSubmissions  int          `json:"max_submissions"`
-	Status          string       `json:"status"` // e.g. "upcoming", "in progress", "finished"
-	Organizer       User         `json:"organizer"`
-	RegisteredUsers []User       `json:"registered_users"`
-	Rounds          []Round      `json:"rounds"`
-	Submissions     []Submission `json:"submissions"`
+	Title          string `json:"title"`
+	Description    string `json:"description"`
+	MaxPlayers     int    `json:"max_players"`
+	MaxSubmissions int    `json:"max_submissions"`
+	Status         string `json:"status"` // e.g. "upcoming", "in progress", "finished"
+	OrganizerID    uint   `json:"organizer_id"`
 }
+
+// Organizer       User         `gorm:"foreignKey:OrganizerID" json:"organizer"`
+// 	RegisteredUsers []User       `json:"registered_users"`
+// 	Rounds          []Round      `json:"rounds"`
+// 	Submissions     []Submission `json:"submissions"`
 
 type Round struct {
 	gorm.Model
