@@ -6,18 +6,18 @@ import (
 	"github.com/vadimegorov13/photo-vs-api/pkg/common/models"
 )
 
-func (h handler) Register(c *fiber.Ctx) error {
+func (h handler) RegisterUser(c *fiber.Ctx) error {
 	body := c.Body()
 
-	var lead models.User
+	var user models.User
 
-	if err := json.Unmarshal(body, &lead); err != nil {
+	if err := json.Unmarshal(body, &user); err != nil {
 		return fiber.NewError(fiber.StatusBadRequest, err.Error())
 	}
 
-	if result := h.DB.Create(&lead); result.Error != nil {
+	if result := h.DB.Create(&user); result.Error != nil {
 		return fiber.NewError(fiber.StatusBadRequest, result.Error.Error())
 	}
 
-	return c.JSON(&lead)
+	return c.JSON(&user)
 }

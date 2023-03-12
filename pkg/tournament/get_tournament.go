@@ -5,7 +5,7 @@ import (
 	"github.com/vadimegorov13/photo-vs-api/pkg/common/models"
 )
 
-func (h handler) GetTournamentData(c *fiber.Ctx) error {
+func (h handler) GetTournament(c *fiber.Ctx) error {
 	id := c.Params("id")
 
 	var tournament models.Tournament

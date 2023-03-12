@@ -28,6 +28,7 @@ func RegisterRoutes(app *fiber.App, db *gorm.DB) {
 	user := v1.Group("/user")
 
 	// Register the route handlers
-	user.Get("/login", h.Login)
-	user.Post("/register", h.Register)
+	user.Get("/login", h.LoginUser)
+	user.Post("/register", h.RegisterUser)
+	user.Get("/:id", h.GetUser)
 }
