@@ -64,7 +64,7 @@ type Submission struct {
 type User struct {
 	Basics
 	Username    string        `json:"username"`
-	Email       string        `json:"email"`
+	Email       string        `json:"email" gorm:"uniqueIndex"`
 	Submissions []*Submission `json:"submissions" gorm:"foreignKey:UserId"`
 	Votes       []*Vote       `json:"votes" gorm:"foreignKey:UserId"`
 	Tournaments []*Tournament `json:"tournaments" gorm:"many2many:tournament_users"`
